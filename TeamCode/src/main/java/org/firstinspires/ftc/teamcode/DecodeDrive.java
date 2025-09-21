@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -35,10 +36,7 @@ public class DecodeDrive extends LinearOpMode {
 
     public void DoWork3() {
         BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
-                hardwareMap.get(DcMotor.class, "FrontRight"),
-                hardwareMap.get(DcMotor.class, "FrontLeft"),
-                hardwareMap.get(DcMotor.class, "BackRight"),
-                hardwareMap.get(DcMotor.class, "BackLeft"));
+                new MecanumDrive(hardwareMap, new Pose2d(0,0,0)));
 
         Thread t1 = new Thread(task, "t1");
 
