@@ -16,7 +16,7 @@ public class BackGroundMechRoadRunner implements Runnable {
     //All motors
     public BackGroundMechRoadRunner(GamepadEx gamepad, MecanumDrive MD) {
         GP = gamepad;
-        mecanumDrive = MD;
+        mecanumDrive = MD; //HIIII THIS SH
     }
 
 
