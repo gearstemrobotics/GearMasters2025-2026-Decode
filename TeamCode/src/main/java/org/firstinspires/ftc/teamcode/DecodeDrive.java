@@ -17,16 +17,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class DecodeDrive extends LinearOpMode {
 
 
-    //RevBlinkinLedDriver blinkinLedDriver;
-
-
 
     private boolean Moving = false;
 
-
-    /**
-     * This function is executed when this Op Mode is selected from the Driver Station.
-     */
     @Override
     public void runOpMode() {
 
@@ -39,23 +32,6 @@ public class DecodeDrive extends LinearOpMode {
                 new MecanumDrive(hardwareMap, new Pose2d(0,0,0)));
 
         Thread t1 = new Thread(task, "t1");
-
-       // BackgroundAppendages task2 = new BackgroundAppendages();
-
-        //Thread t2 = new Thread(task2, "t2");
-
-
-
-        //port 2 3 ****************************************************
-       /*
-        gripper = hardwareMap.get(CRServo.class, "gripper");
-        gripper2 = hardwareMap.get(CRServo.class, "gripper2");
-
-        gripper.resetDeviceConfigurationForOpMode();
-        gripper2.resetDeviceConfigurationForOpMode();
-
-
-        */
 
         //TouchSensor touch = hardwareMap.get(TouchSensor.class, "touch");
 
