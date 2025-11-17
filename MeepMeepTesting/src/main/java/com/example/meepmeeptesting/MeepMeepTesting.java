@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.acmerobotics.roadrunner.QuinticSpline2d;
+import com.acmerobotics.roadrunner.QuinticSpline1d;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
@@ -15,6 +17,7 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 0, 0))
+
                 .lineToX(30)
                 .turn(Math.toRadians(90))
                 .lineToY(30)
@@ -24,6 +27,11 @@ public class MeepMeepTesting {
                 .lineToY(0)
                 .turn(Math.toRadians(90))
                 .build());
+
+       // QuinticSpline2d spline = new QuinticSpline2d(
+               // new QuinticSpline2d(0,0),//.Waypoint(0, 0, 0, 0),
+              //  new QuinticSpline2d(0,0),//.Waypoint(30, 15, -30, 10)
+      //  );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_BLACK)
                 .setDarkMode(true)

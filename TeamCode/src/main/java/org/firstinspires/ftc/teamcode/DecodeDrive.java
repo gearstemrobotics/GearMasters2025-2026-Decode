@@ -2,24 +2,27 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
 
 
 @TeleOp
 public class DecodeDrive extends LinearOpMode {
 
 
-
+  //  private GamepadEx gamepad;
     private boolean Moving = false;
+    private VoltageSensor voltageSensor;
+    private double powerScaler = 1;
 
+    private DcMotor flinger;
+    private DcMotor flinger2;
+    private DcMotor shooter;
+    private DcMotor kickStand;
     @Override
     public void runOpMode() {
 
@@ -32,6 +35,11 @@ public class DecodeDrive extends LinearOpMode {
                 new MecanumDrive(hardwareMap, new Pose2d(0,0,0)));
 
         Thread t1 = new Thread(task, "t1");
+        flinger = hardwareMap.get(DcMotor.class, "flinger");
+flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
+        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
+
 
         //TouchSensor touch = hardwareMap.get(TouchSensor.class, "touch");
 
@@ -40,6 +48,19 @@ public class DecodeDrive extends LinearOpMode {
             t1.start();
             //t2.start();
             while (opModeIsActive()) {
+
+            flinger.setPower(gamepad2.left_stick_y);
+            flinger2.setPower(gamepad2.right_stick_y);
+            shooter.setPower(gamepad2.right_trigger);
+
+                double voltage = voltageSensor.getVoltage();
+                telemetry.addData("voltage", voltage);
+                telemetry.update();
+                voltage = voltage/14;
+                if (voltage >= 0.5)
+            {
+                powerScaler = powerScaler - (voltage - 0.5);
+            }
 
 
 
@@ -75,7 +96,7 @@ public class DecodeDrive extends LinearOpMode {
 
 
 
-
+            powerScaler = 1;
             }
         }
 
