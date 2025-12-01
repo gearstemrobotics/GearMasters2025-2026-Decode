@@ -40,7 +40,7 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
-
+        kickStand  = hardwareMap.get(DcMotor.class, "kickStand");
         //TouchSensor touch = hardwareMap.get(TouchSensor.class, "touch");
 
         waitForStart();
@@ -49,11 +49,16 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
             //t2.start();
             while (opModeIsActive()) {
 
-            flinger.setPower(gamepad2.left_stick_y);
-            flinger2.setPower(gamepad2.right_stick_y);
-            shooter.setPower(gamepad2.right_trigger);
+            flinger.setPower(-gamepad2.left_stick_y);
+            flinger2.setPower(gamepad2.left_stick_y);
+            shooter.setPower(-gamepad2.right_stick_y);
+            kickStand.setPower(gamepad2.right_trigger);
+            kickStand.setPower(-gamepad2.left_trigger);
 
-                double voltage = voltageSensor.getVoltage();
+                //kickStand.setPower(gamepad2.right_stick_x);
+            //shooter.setPower(-gamepad2.left_trigger);
+
+                /*  double voltage = voltageSensor.getVoltage();
                 telemetry.addData("voltage", voltage);
                 telemetry.update();
                 voltage = voltage/14;
@@ -62,6 +67,8 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
                 powerScaler = powerScaler - (voltage - 0.5);
             }
 
+
+                 */
 
 
 
