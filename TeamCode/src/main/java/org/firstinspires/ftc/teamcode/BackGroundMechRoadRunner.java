@@ -37,6 +37,13 @@ public class BackGroundMechRoadRunner implements Runnable {
                 vertical = vertical/2;
             }
 
+            if (GP.getButton(GamepadKeys.Button.LEFT_BUMPER))
+            {
+                pivot = pivot/4;
+                horizontal = horizontal/4;
+                vertical = vertical/4;
+            }
+
             Vector2d linearVelocity = new Vector2d(vertical, horizontal);
             PoseVelocity2d powers = new PoseVelocity2d(linearVelocity, pivot);
             mecanumDrive.setDrivePowers(powers);

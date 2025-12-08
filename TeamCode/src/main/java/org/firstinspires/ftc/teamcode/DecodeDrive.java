@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp
 public class DecodeDrive extends LinearOpMode {
 
 
-  //  private GamepadEx gamepad;
+    //  private GamepadEx gamepad;
     private boolean Moving = false;
     private VoltageSensor voltageSensor;
     private double powerScaler = 1;
@@ -23,6 +23,8 @@ public class DecodeDrive extends LinearOpMode {
     private DcMotor flinger2;
     private DcMotor shooter;
     private DcMotor kickStand;
+    private static ElapsedTime stopWatch = new ElapsedTime();
+
     @Override
     public void runOpMode() {
 
@@ -32,16 +34,18 @@ public class DecodeDrive extends LinearOpMode {
 
     public void DoWork3() {
         BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
-                new MecanumDrive(hardwareMap, new Pose2d(0,0,0)));
+                new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)));
 
         Thread t1 = new Thread(task, "t1");
         flinger = hardwareMap.get(DcMotor.class, "flinger");
-flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
+        flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
-        kickStand  = hardwareMap.get(DcMotor.class, "kickStand");
+        kickStand = hardwareMap.get(DcMotor.class, "kickStand");
         //TouchSensor touch = hardwareMap.get(TouchSensor.class, "touch");
+        flinger.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flinger2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
         if (opModeIsActive()) {
@@ -49,14 +53,14 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
             //t2.start();
             while (opModeIsActive()) {
 
-            flinger.setPower(-gamepad2.left_stick_y);
-            flinger2.setPower(gamepad2.left_stick_y);
-            shooter.setPower(-gamepad2.right_stick_y);
-            kickStand.setPower(gamepad2.right_trigger);
-            kickStand.setPower(-gamepad2.left_trigger);
+                flinger.setPower(-gamepad2.left_stick_y);
+                flinger2.setPower(gamepad2.left_stick_y);
+                shooter.setPower(-gamepad2.right_stick_y);
+                kickStand.setPower(gamepad2.right_trigger);
+                kickStand.setPower(-gamepad2.left_trigger);
 
                 //kickStand.setPower(gamepad2.right_stick_x);
-            //shooter.setPower(-gamepad2.left_trigger);
+                //shooter.setPower(-gamepad2.left_trigger);
 
                 /*  double voltage = voltageSensor.getVoltage();
                 telemetry.addData("voltage", voltage);
@@ -70,7 +74,26 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
 
                  */
 
+if (gamepad2.dpadRightWasPressed())
+{
+    stopWatch.reset();
+    while (stopWatch.seconds() < 1.5 )
+    {
+        flinger.setPower(-1);
+        flinger2.setPower(1);
 
+    }
+
+    stopWatch.reset();
+    while (stopWatch.seconds() < 1 )
+    {
+        flinger.setPower(1);
+        flinger2.setPower(-1);
+
+    }
+
+
+}
 
 
 
@@ -102,8 +125,7 @@ flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
                 //telemetry.update();
 
 
-
-            powerScaler = 1;
+                powerScaler = 1;
             }
         }
 
