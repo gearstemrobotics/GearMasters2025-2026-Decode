@@ -77,7 +77,7 @@ public class DecodeDrive extends LinearOpMode {
 if (gamepad2.dpadRightWasPressed())
 {
     stopWatch.reset();
-    while (stopWatch.seconds() < 1.5 )
+    while (stopWatch.seconds() < 0.5 )
     {
         flinger.setPower(-1);
         flinger2.setPower(1);
@@ -85,7 +85,7 @@ if (gamepad2.dpadRightWasPressed())
     }
 
     stopWatch.reset();
-    while (stopWatch.seconds() < 1 )
+    while (stopWatch.seconds() < 0.3 )
     {
         flinger.setPower(1);
         flinger2.setPower(-1);
