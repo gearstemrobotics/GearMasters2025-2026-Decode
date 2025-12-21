@@ -2,31 +2,29 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp
 public class DecodeDrive extends LinearOpMode {
 
 
-    //RevBlinkinLedDriver blinkinLedDriver;
-
-
-
+    //  private GamepadEx gamepad;
     private boolean Moving = false;
+    private VoltageSensor voltageSensor;
+    private double powerScaler = 1;
 
+    private DcMotor flinger;
+    private DcMotor flinger2;
+    private DcMotor shooter;
+    private DcMotor kickStand;
+    private static ElapsedTime stopWatch = new ElapsedTime();
 
-    /**
-     * This function is executed when this Op Mode is selected from the Driver Station.
-     */
     @Override
     public void runOpMode() {
 
@@ -36,28 +34,18 @@ public class DecodeDrive extends LinearOpMode {
 
     public void DoWork3() {
         BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
-                new MecanumDrive(hardwareMap, new Pose2d(0,0,0)));
+                new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)));
 
         Thread t1 = new Thread(task, "t1");
+        flinger = hardwareMap.get(DcMotor.class, "flinger");
+        flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
+        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
-       // BackgroundAppendages task2 = new BackgroundAppendages();
-
-        //Thread t2 = new Thread(task2, "t2");
-
-
-
-        //port 2 3 ****************************************************
-       /*
-        gripper = hardwareMap.get(CRServo.class, "gripper");
-        gripper2 = hardwareMap.get(CRServo.class, "gripper2");
-
-        gripper.resetDeviceConfigurationForOpMode();
-        gripper2.resetDeviceConfigurationForOpMode();
-
-
-        */
-
+        kickStand = hardwareMap.get(DcMotor.class, "kickStand");
         //TouchSensor touch = hardwareMap.get(TouchSensor.class, "touch");
+        flinger.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flinger2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
         if (opModeIsActive()) {
@@ -65,8 +53,47 @@ public class DecodeDrive extends LinearOpMode {
             //t2.start();
             while (opModeIsActive()) {
 
+                flinger.setPower(-gamepad2.left_stick_y);
+                flinger2.setPower(gamepad2.left_stick_y);
+                shooter.setPower(-gamepad2.right_stick_y);
+                kickStand.setPower(gamepad2.right_trigger);
+                kickStand.setPower(-gamepad2.left_trigger);
+
+                //kickStand.setPower(gamepad2.right_stick_x);
+                //shooter.setPower(-gamepad2.left_trigger);
+
+                /*  double voltage = voltageSensor.getVoltage();
+                telemetry.addData("voltage", voltage);
+                telemetry.update();
+                voltage = voltage/14;
+                if (voltage >= 0.5)
+            {
+                powerScaler = powerScaler - (voltage - 0.5);
+            }
 
 
+                 */
+
+if (gamepad2.dpadRightWasPressed())
+{
+    stopWatch.reset();
+    while (stopWatch.seconds() < 0.5 )
+    {
+        flinger.setPower(-1);
+        flinger2.setPower(1);
+
+    }
+
+    stopWatch.reset();
+    while (stopWatch.seconds() < 0.3 )
+    {
+        flinger.setPower(1);
+        flinger2.setPower(-1);
+
+    }
+
+
+}
 
 
 
@@ -98,8 +125,7 @@ public class DecodeDrive extends LinearOpMode {
                 //telemetry.update();
 
 
-
-
+                powerScaler = 1;
             }
         }
 
