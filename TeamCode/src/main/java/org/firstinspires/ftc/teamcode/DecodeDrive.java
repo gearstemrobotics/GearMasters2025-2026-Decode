@@ -59,6 +59,9 @@ public class DecodeDrive extends LinearOpMode {
                 kickStand.setPower(gamepad2.right_trigger);
                 kickStand.setPower(-gamepad2.left_trigger);
 
+                double voltage = voltageSensor.getVoltage();
+                double voltageScaler = 12/voltage;
+
                 //kickStand.setPower(gamepad2.right_stick_x);
                 //shooter.setPower(-gamepad2.left_trigger);
 
@@ -77,18 +80,19 @@ public class DecodeDrive extends LinearOpMode {
 if (gamepad2.dpadRightWasPressed())
 {
     stopWatch.reset();
-    while (stopWatch.seconds() < 0.5 )
+    while (stopWatch.seconds() < 0.4 )
     {
-        flinger.setPower(-1);
-        flinger2.setPower(1);
+
+        flinger.setPower(-voltageScaler);
+        flinger2.setPower(voltageScaler);
 
     }
 
     stopWatch.reset();
-    while (stopWatch.seconds() < 0.3 )
+    while (stopWatch.seconds() < 0.2 )
     {
-        flinger.setPower(1);
-        flinger2.setPower(-1);
+        flinger.setPower(voltageScaler);
+        flinger2.setPower(-voltageScaler);
 
     }
 
@@ -121,8 +125,9 @@ if (gamepad2.dpadRightWasPressed())
                  */
 
                 //task2.AddTelemetry(telemetry);
-                //  telemetry.addData("touch=", touch.isPressed());
-                //telemetry.update();
+                  telemetry.addData("voltage scaler", voltageScaler);
+                telemetry.addData("voltage", voltage);
+                telemetry.update();
 
 
                 powerScaler = 1;
