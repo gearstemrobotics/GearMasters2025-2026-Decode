@@ -28,7 +28,7 @@ public class MeepMeepTesting {
         Pose2d endPose = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
         //  Pose2d beginPose = new Pose2d(new Vector2d(-52, -45), Math.toRadians(-135));
         //Pose2d endPose = new Pose2d(new Vector2d(10, 23), Math.toRadians(-80));
-        Pose2d beginPose =   new Pose2d(new Vector2d(-47, 51), Math.toRadians(490));
+        Pose2d beginPose =   new Pose2d(new Vector2d(-52, 47), Math.toRadians(490));
         Pose2d test = new Pose2d(10,-23,-90);
         Pose2d firstBalls = new Pose2d(-11,24,1.57);
         Pose2d secondBalls = new Pose2d(12,-24,-1.57);
@@ -40,11 +40,11 @@ public class MeepMeepTesting {
                       //  .strafeTo(46,47,9)
                 .strafeTo(new Vector2d(-46, 47))
                 .splineToSplineHeading(firstBalls,-100.1)
-                .strafeTo(new Vector2d(-9, 35))
-                        .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-9, 40))
-                .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-9, 45))
+                .strafeTo(new Vector2d(-11.4, 56))
+                       // .waitSeconds(0.1)
+                //.strafeTo(new Vector2d(-9, 40))
+                //.waitSeconds(0.1)
+                //.strafeTo(new Vector2d(-9, 45))
 
                 .strafeTo(new Vector2d(-9, 24))
                 .turnTo(0.8)
@@ -52,6 +52,20 @@ public class MeepMeepTesting {
                 .strafeTo(new Vector2d(-50, 15))
                 .turnTo(-4.7)
 
+                // second balls
+                .strafeTo(new Vector2d(-46, 47))
+                .splineToSplineHeading(secondBalls,-100.1)
+                .strafeTo(new Vector2d(12, 56))
+                // .waitSeconds(0.1)
+                //.strafeTo(new Vector2d(-9, 40))
+                //.waitSeconds(0.1)
+                //.strafeTo(new Vector2d(-9, 45))
+
+                .strafeTo(new Vector2d(12, 24))
+                .turnTo(0.8)
+                .splineToSplineHeading(beginPose,-110)
+                .strafeTo(new Vector2d(-50, 15))
+                .turnTo(-4.7)
 
 
 /*

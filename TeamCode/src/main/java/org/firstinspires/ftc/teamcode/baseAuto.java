@@ -10,6 +10,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class baseAuto extends LinearOpMode {
 
+
+    public Pose2d endPoseRed = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
+    public Pose2d endPoseBlue = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
+
+    public Pose2d test = new Pose2d(10,-23,-90);
+    public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
+    public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
     public static class Locations
     {
         public enum Pose
@@ -47,8 +54,8 @@ public abstract class baseAuto extends LinearOpMode {
         public Pose2d endPoseBlue = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
 
         public Pose2d test = new Pose2d(10,-23,-90);
-        public Pose2d firstBalls = new Pose2d(-11,-24,-1.57);
-        public Pose2d secondBalls = new Pose2d(12,-24,-1.57);
+        public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
+        public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
     }
 
 

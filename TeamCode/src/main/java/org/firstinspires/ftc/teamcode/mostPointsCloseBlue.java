@@ -23,15 +23,13 @@ public class mostPointsCloseBlue extends baseAuto {
 
     @Override
     protected void RunOpModeInnerLoop() {
-        Pose2d firstBalls = new Pose2d(-11, color * 24, color * 1.57);
-        Pose2d secondBalls = new Pose2d(12, color * 24, color * 1.57);
 
         // Delcare Trajectory as such
 
         Action collectBalls1 = drive.actionBuilder(drive.localizer.getPose())
                 // first ball collection
                 .strafeTo(new Vector2d(-46, color * 47))
-                .splineToSplineHeading(firstBalls, color * -100.1)
+                .splineToSplineHeading(firstBallsBlue, color * -100.1)
                 .strafeTo(new Vector2d(-9, color * 35))
                 .waitSeconds(0.1)
                 .strafeTo(new Vector2d(-9, color * 42))
@@ -39,7 +37,7 @@ public class mostPointsCloseBlue extends baseAuto {
                 .strafeTo(new Vector2d(-9, color * 54))
                 .strafeTo(new Vector2d(-9, color * 24))
                 .turnTo(color * -0.8)
-                .splineToSplineHeading(super.getBeginPose(), color * -110)
+                .splineToSplineHeading(beginPose, color * -110)
                 .build();
 
         Action park = drive.actionBuilder(beginPose)
