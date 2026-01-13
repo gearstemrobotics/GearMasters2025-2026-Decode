@@ -67,7 +67,7 @@ public class DecodeDrive extends LinearOpMode {
                 //kickStand.setPower(gamepad2.right_stick_x);
                 //shooter.setPower(-gamepad2.left_trigger);
 
-                /*  double voltage = voltageSensor.getVoltage();
+                /*  double voltage = voltageSensor. getVoltage();
                 telemetry.addData("voltage", voltage);
                 telemetry.update();
                 voltage = voltage/14;
