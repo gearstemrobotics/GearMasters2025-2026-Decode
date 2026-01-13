@@ -18,6 +18,8 @@ public class DecodeDrive extends LinearOpMode {
     private boolean Moving = false;
     private VoltageSensor voltageSensor;
     private double powerScaler = 1;
+    
+    private double powerForShooter = 0.5; 
 
     private DcMotor flinger;
     private DcMotor flinger2;
@@ -60,7 +62,7 @@ public class DecodeDrive extends LinearOpMode {
                 kickStand.setPower(-gamepad2.left_trigger);
 
                 double voltage = voltageSensor.getVoltage();
-                double voltageScaler = 12.5 / voltage;
+                double voltageScaler = 12.7 / voltage;
 
                 //kickStand.setPower(gamepad2.right_stick_x);
                 //shooter.setPower(-gamepad2.left_trigger);
@@ -142,6 +144,42 @@ public class DecodeDrive extends LinearOpMode {
 
                 }
 
+
+
+                if (gamepad2.bWasPressed())
+                {
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.8 )
+                    {
+
+                        flinger.setPower(-voltageScaler * powerForShooter);
+                        flinger2.setPower(voltageScaler * powerForShooter);
+
+                    }
+
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.4 )
+                    {
+                        flinger.setPower(voltageScaler * powerForShooter);
+                        flinger2.setPower(-voltageScaler * powerForShooter);
+
+                    }
+
+
+                }
+                
+                
+                if (gamepad2.dpadUpWasPressed())
+                {
+                    powerForShooter += 0.01;
+                    
+                }
+
+                if (gamepad2.dpadDownWasPressed())
+                {
+                    powerForShooter -= 0.01;
+
+                }
                 /*
                 if (gamepad2.right_trigger > 0) {
                     gripper2.setPower(gamepad2.right_trigger);
@@ -167,6 +205,7 @@ public class DecodeDrive extends LinearOpMode {
                 //task2.AddTelemetry(telemetry);
                 telemetry.addData("voltage scaler", voltageScaler);
                 telemetry.addData("voltage", voltage);
+                telemetry.addData("shoot power", powerForShooter);
                 telemetry.update();
 
 
