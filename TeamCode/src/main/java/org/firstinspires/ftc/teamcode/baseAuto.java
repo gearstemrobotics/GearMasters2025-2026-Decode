@@ -15,8 +15,15 @@ public abstract class baseAuto extends LinearOpMode {
     public Pose2d endPoseBlue = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
 
     public Pose2d test = new Pose2d(10,-23,-90);
-    public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
-    public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
+   // public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
+   // public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
+
+    Pose2d firstBallsRed = new Pose2d(-11,24,1.57);
+    Pose2d secondBallsRed = new Pose2d(12,24,1.57);
+    Pose2d thirdBallsRed = new Pose2d(36.5,24,1.57);
+    Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
+    Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
+    Pose2d thirdBallsBlue = new Pose2d(36.5,24,1.57);
     public static class Locations
     {
         public enum Pose
@@ -99,11 +106,12 @@ public abstract class baseAuto extends LinearOpMode {
 
     }
 
-    protected void shoot()
+    protected void shootUp()
     {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12/voltage;
+        double voltageScaler = 12.7/voltage;
+        /*
         stopWatch.reset();
         while (stopWatch.seconds() < 0.4 )
         {
@@ -112,6 +120,36 @@ public abstract class baseAuto extends LinearOpMode {
             flinger2.setPower(voltageScaler);
 
         }
+
+         */
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler);
+            flinger2.setPower(-voltageScaler);
+
+        }
+
+
+    }
+
+    protected void shoot()
+    {
+
+        double voltage = voltageSensor.getVoltage();
+        double voltageScaler = 12.7/voltage;
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.4 )
+        {
+
+            flinger.setPower(-voltageScaler);
+            flinger2.setPower(voltageScaler);
+
+        }
+
+
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2 )

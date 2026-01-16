@@ -28,44 +28,79 @@ public class MeepMeepTesting {
         Pose2d endPose = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
         //  Pose2d beginPose = new Pose2d(new Vector2d(-52, -45), Math.toRadians(-135));
         //Pose2d endPose = new Pose2d(new Vector2d(10, 23), Math.toRadians(-80));
-        Pose2d beginPose =   new Pose2d(new Vector2d(-52, 47), Math.toRadians(490));
+        Pose2d beginPose =   new Pose2d(new Vector2d(-52.2, 47.2), Math.toRadians(487));
         Pose2d test = new Pose2d(10,-23,-90);
         Pose2d firstBalls = new Pose2d(-11,24,1.57);
-        Pose2d secondBalls = new Pose2d(12,-24,-1.57);
-
+        Pose2d secondBalls = new Pose2d(12,24,1.57);
+        Pose2d thirdBalls = new Pose2d(36.5,24,1.57);
+        Pose2d beginPoseBeforeStrafe =   new Pose2d(new Vector2d(-46.8, 42.1), Math.toRadians(487));
         myBot.runAction(myBot.getDrive().actionBuilder(beginPose) //new Pose2d(30, 0, 90))
 
                 // .strafeTo(origin.position)
                       //  .turnTo(200)
                       //  .strafeTo(46,47,9)
-                .strafeTo(new Vector2d(-46, 47))
+
+
+
+                //goes to the first balls
+                .strafeTo(new Vector2d(-46.8, 42.1))
                 .splineToSplineHeading(firstBalls,-100.1)
-                .strafeTo(new Vector2d(-11.4, 56))
+                .strafeTo(new Vector2d(-11.4, 57.2))
+
+                // goes back to the goal to shoot
+                .strafeTo(new Vector2d(-11, 24))
+                .splineToSplineHeading(beginPose,-280.1)
+              //  .strafeTo(new Vector2d(-52.2, 47.2))
+
+
+                // goes to second balls
+                .strafeTo(new Vector2d(-46.8, 42.1))
+                .splineToSplineHeading(secondBalls,-100.1)
+                .strafeTo(new Vector2d(12, 57.2))
+
+                //goes back and shoots
+                .strafeTo(new Vector2d(12, 24))
+                .splineToSplineHeading(beginPose,-280.1)
+
+
+                // goes and gets the third balls
+                .strafeTo(new Vector2d(-46.8, 42.1))
+                .splineToSplineHeading(thirdBalls,-100.1)
+                .strafeTo(new Vector2d(36.5, 57.2))
+
+
+                // goes back and shoots
+                .strafeTo(new Vector2d(36.5, 24))
+                .splineToSplineHeading(beginPose,-280.1)
+
+
+
+                //.strafeTo(new Vector2d(-11.4, 56))
                        // .waitSeconds(0.1)
                 //.strafeTo(new Vector2d(-9, 40))
                 //.waitSeconds(0.1)
                 //.strafeTo(new Vector2d(-9, 45))
 
-                .strafeTo(new Vector2d(-9, 24))
-                .turnTo(0.8)
-                .splineToSplineHeading(beginPose,-110)
-                .strafeTo(new Vector2d(-50, 15))
-                .turnTo(-4.7)
+                //.strafeTo(new Vector2d(-9, 24))
+                //.turnTo(0.8)
+                //.splineToSplineHeading(beginPose,-110)
+                //.strafeTo(new Vector2d(-50, 15))
+                //.turnTo(-4.7)
 
                 // second balls
-                .strafeTo(new Vector2d(-46, 47))
-                .splineToSplineHeading(secondBalls,-100.1)
-                .strafeTo(new Vector2d(12, 56))
+                //.strafeTo(new Vector2d(-46, 47))
+                //.splineToSplineHeading(secondBalls,-100.1)
+                //.strafeTo(new Vector2d(12, 56))
                 // .waitSeconds(0.1)
                 //.strafeTo(new Vector2d(-9, 40))
                 //.waitSeconds(0.1)
                 //.strafeTo(new Vector2d(-9, 45))
 
-                .strafeTo(new Vector2d(12, 24))
-                .turnTo(0.8)
-                .splineToSplineHeading(beginPose,-110)
-                .strafeTo(new Vector2d(-50, 15))
-                .turnTo(-4.7)
+                //.strafeTo(new Vector2d(12, 24))
+                //.turnTo(0.8)
+                //.splineToSplineHeading(beginPose,-110)
+                //.strafeTo(new Vector2d(-50, 15))
+                //.turnTo(-4.7)
 
 
 /*
