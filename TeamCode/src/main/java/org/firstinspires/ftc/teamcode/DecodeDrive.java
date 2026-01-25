@@ -18,6 +18,8 @@ public class DecodeDrive extends LinearOpMode {
     private boolean Moving = false;
     private VoltageSensor voltageSensor;
     private double powerScaler = 1;
+    
+    private double powerForShooter = 0.5; 
 
     private DcMotor flinger;
     private DcMotor flinger2;
@@ -59,10 +61,13 @@ public class DecodeDrive extends LinearOpMode {
                 kickStand.setPower(gamepad2.right_trigger);
                 kickStand.setPower(-gamepad2.left_trigger);
 
+                double voltage = voltageSensor.getVoltage();
+                double voltageScaler = 12.7 / voltage;
+
                 //kickStand.setPower(gamepad2.right_stick_x);
                 //shooter.setPower(-gamepad2.left_trigger);
 
-                /*  double voltage = voltageSensor.getVoltage();
+                /*  double voltage = voltageSensor. getVoltage();
                 telemetry.addData("voltage", voltage);
                 telemetry.update();
                 voltage = voltage/14;
@@ -74,30 +79,107 @@ public class DecodeDrive extends LinearOpMode {
 
                  */
 
-if (gamepad2.dpadRightWasPressed())
-{
-    stopWatch.reset();
-    while (stopWatch.seconds() < 0.5 )
-    {
-        flinger.setPower(-1);
-        flinger2.setPower(1);
-
-    }
-
-    stopWatch.reset();
-    while (stopWatch.seconds() < 0.3 )
-    {
-        flinger.setPower(1);
-        flinger2.setPower(-1);
-
-    }
 
 
-}
+                // three balls
+                if (gamepad2.yWasPressed()) {
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.5) {
+
+                        flinger.setPower(-voltageScaler * 0.95);
+                        flinger2.setPower(voltageScaler * 0.95);
+
+                    }
+
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.3) {
+                        flinger.setPower(voltageScaler * 0.95);
+                        flinger2.setPower(-voltageScaler * 0.95);
+
+                    }
+
+
+                }
+
+                // two balls
+                if (gamepad2.xWasPressed()) {
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.5) {
+
+                        flinger.setPower(-voltageScaler * 0.87);
+                        flinger2.setPower(voltageScaler * 0.87);
+
+                    }
+
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.3) {
+                        flinger.setPower(voltageScaler * 0.87);
+                        flinger2.setPower(-voltageScaler * 0.87);
+
+                    }
+
+
+                }
+
+                // one ball
+                if (gamepad2.aWasPressed())
+                {
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.5 )
+                    {
+
+                        flinger.setPower(-voltageScaler * 0.83);
+                        flinger2.setPower(voltageScaler * 0.83);
+
+                    }
+
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.3 )
+                    {
+                        flinger.setPower(voltageScaler * 0.83);
+                        flinger2.setPower(-voltageScaler * 0.83);
+
+                    }
+
+
+                }
 
 
 
+                if (gamepad2.bWasPressed())
+                {
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.8 )
+                    {
 
+                        flinger.setPower(-voltageScaler * powerForShooter);
+                        flinger2.setPower(voltageScaler * powerForShooter);
+
+                    }
+
+                    stopWatch.reset();
+                    while (stopWatch.seconds() < 0.4 )
+                    {
+                        flinger.setPower(voltageScaler * powerForShooter);
+                        flinger2.setPower(-voltageScaler * powerForShooter);
+
+                    }
+
+
+                }
+                
+                
+                if (gamepad2.dpadUpWasPressed())
+                {
+                    powerForShooter += 0.01;
+                    
+                }
+
+                if (gamepad2.dpadDownWasPressed())
+                {
+                    powerForShooter -= 0.01;
+
+                }
                 /*
                 if (gamepad2.right_trigger > 0) {
                     gripper2.setPower(gamepad2.right_trigger);
@@ -121,8 +203,10 @@ if (gamepad2.dpadRightWasPressed())
                  */
 
                 //task2.AddTelemetry(telemetry);
-                //  telemetry.addData("touch=", touch.isPressed());
-                //telemetry.update();
+                telemetry.addData("voltage scaler", voltageScaler);
+                telemetry.addData("voltage", voltage);
+                telemetry.addData("shoot power", powerForShooter);
+                telemetry.update();
 
 
                 powerScaler = 1;
