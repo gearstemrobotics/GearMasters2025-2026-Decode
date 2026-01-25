@@ -19,12 +19,12 @@ public abstract class baseAuto extends LinearOpMode {
    // public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
 
     Pose2d firstBallsRed = new Pose2d(-11,24,1.57);
-    Pose2d secondBallsRed = new Pose2d(12,24,1.57);
-    Pose2d thirdBallsRed = new Pose2d(36.5,24,1.57);
-    Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
-    Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
-    Pose2d thirdBallsBlue = new Pose2d(36.5,24,1.57);
-    public static class Locations
+    Pose2d secondBallsRed = new Pose2d(12.3,24,1.57);
+    Pose2d thirdBallsRed = new Pose2d(35.8,24,1.57);
+    Pose2d firstBallsBlue = new Pose2d(-11,-24,-1.57);
+    Pose2d secondBallsBlue = new Pose2d(12.3,-24,-1.57);
+    Pose2d thirdBallsBlue = new Pose2d(35.8,-24,-1.57);
+  /*  public static class Locations
     {
         public enum Pose
         {
@@ -67,6 +67,8 @@ public abstract class baseAuto extends LinearOpMode {
 
 
 
+   */
+
 
 
     protected DcMotor flinger;
@@ -77,7 +79,7 @@ public abstract class baseAuto extends LinearOpMode {
 
     protected Pose2d beginPose = null;
     protected  MecanumDrive drive = null;
-    protected double color;
+    public double color;
 
 
 
@@ -159,8 +161,76 @@ public abstract class baseAuto extends LinearOpMode {
 
         }
 
+        stopWatch.reset();
+        while (stopWatch.seconds() < 3 )
+        {}
+
 
     }
+
+
+    protected void shootNoWait()
+    {
+
+        double voltage = voltageSensor.getVoltage();
+        double voltageScaler = 12.7/voltage;
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.4 )
+        {
+
+            flinger.setPower(-voltageScaler*0.78);
+            flinger2.setPower(voltageScaler*0.78);
+
+        }
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler*0.78);
+            flinger2.setPower(-voltageScaler*0.78);
+
+        }
+
+
+
+
+    }
+
+    protected void shootSmall()
+    {
+
+        double voltage = voltageSensor.getVoltage();
+        double voltageScaler = 12.7/voltage;
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.4 )
+        {
+
+            flinger.setPower(-voltageScaler*0.78);
+            flinger2.setPower(voltageScaler*0.78);
+
+        }
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler*0.78);
+            flinger2.setPower(-voltageScaler*0.78);
+
+        }
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 3 )
+        {}
+
+
+    }
+
 
     protected boolean isBlue = false;
 

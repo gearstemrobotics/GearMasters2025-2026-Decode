@@ -14,9 +14,10 @@ public class AlamoRedMP extends baseAuto {
 
     @Override
     protected void RunInit() {
+       color = 1; // isBlue(false);
+        setBeginPoseAndInitDrive(-52.05, 47.05 * color, 487 * color);
 
-        setBeginPoseAndInitDrive(-52.2, 47.2 * color, -487 * color);
-        isBlue(false);
+
     }
 
     @Override
@@ -28,7 +29,14 @@ public class AlamoRedMP extends baseAuto {
                 //goes to the first balls
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(firstBallsRed,-100.1*color)
-                .strafeTo(new Vector2d(-11.4, 57.2*color))
+                //.strafeTo(new Vector2d(-11.4, 50*color))
+                .strafeTo(new Vector2d(-11.4, 35*color))
+                .waitSeconds(0.1)
+                .strafeTo(new Vector2d(-11.4, 42*color))
+                .waitSeconds(0.1)
+                .strafeTo(new Vector2d(-11.4, 50*color))
+
+                .strafeTo(new Vector2d(-11.4, 24*color))
                 .build();
 
         Action shootBalls1 = drive.actionBuilder(firstBallsRed)
@@ -42,12 +50,12 @@ public class AlamoRedMP extends baseAuto {
                 // goes to second balls
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(secondBallsRed,-100.1*color)
-                .strafeTo(new Vector2d(12, 57.2*color))
+                .strafeTo(new Vector2d(12.3, 50*color))
                 .build();
 
         Action shootBalls2 = drive.actionBuilder(secondBallsRed)
                 // goes back to the goal to shoot
-                .strafeTo(new Vector2d(12, 24*color))
+                .strafeTo(new Vector2d(12.3, 24*color))
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
@@ -56,16 +64,16 @@ public class AlamoRedMP extends baseAuto {
                 // goes and gets the third balls
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(thirdBallsRed ,-100.1*color)
-                .strafeTo(new Vector2d(36.5, 57.2*color))
+                .strafeTo(new Vector2d(35.8, 50*color))
                 .build();
 
         Action shootBalls3 = drive.actionBuilder(thirdBallsRed)
                 // goes back and shoots
-                .strafeTo(new Vector2d(36.5, 24*color))
+                .strafeTo(new Vector2d(35.8, 24*color))
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
-        shoot();
+         shoot();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
@@ -74,9 +82,10 @@ public class AlamoRedMP extends baseAuto {
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
+                           // shooter.setPower(0);
                             sleep(500);
-                            flinger.setPower(-1);
-                            flinger2.setPower(1);
+                           // flinger.setPower(-1);
+                            //flinger2.setPower(1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
                         shootBalls1,
@@ -84,8 +93,10 @@ public class AlamoRedMP extends baseAuto {
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
+                            //shooter.setPower(0);
                             sleep(500);
-                            shootUp();
+                            shoot();
+                           // shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
 
@@ -97,41 +108,49 @@ public class AlamoRedMP extends baseAuto {
                             telemetry.addLine("Action!");
                             telemetry.update();
                             sleep(500);
-                            flinger.setPower(-1);
-                            flinger2.setPower(1);
+                           // shooter.setPower(0);
+                           // flinger.setPower(-1);
+                           // flinger2.setPower(1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
                         shootBalls2,
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
+                           // shooter.setPower(0);
                             sleep(500);
-                            shootUp();
+                           shootNoWait();
+                           // shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
-                        },
+                        }
 
 
 
 
 
-
+/*   ,
                         collectBalls3,
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
                             sleep(500);
-                            flinger.setPower(-1);
-                            flinger2.setPower(1);
+                          //  shooter.setPower( 0);
+                          //  flinger.setPower(-1);
+                           // flinger2.setPower(1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
                         shootBalls3,
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
+                           // shooter.setPower(0);
                             sleep(500);
-                            shootUp();
+                             shoot();
+
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         }
+
+ */
 
 
                 )

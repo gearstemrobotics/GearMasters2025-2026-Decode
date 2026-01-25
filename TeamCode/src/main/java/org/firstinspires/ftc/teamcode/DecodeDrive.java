@@ -106,7 +106,7 @@ public class DecodeDrive extends LinearOpMode {
                     stopWatch.reset();
                     while (stopWatch.seconds() < 0.5) {
 
-                        flinger.setPower(-voltageScaler * 0.97);
+                        flinger.setPower(-voltageScaler * 0.87);
                         flinger2.setPower(voltageScaler * 0.87);
 
                     }
