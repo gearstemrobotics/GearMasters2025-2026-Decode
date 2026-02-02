@@ -153,6 +153,11 @@ public abstract class baseAuto extends LinearOpMode {
 
 
 
+
+
+
+
+
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2 )
         {
@@ -167,6 +172,45 @@ public abstract class baseAuto extends LinearOpMode {
 
 
     }
+
+    protected void VarShoot()
+    {
+
+        double voltage = voltageSensor.getVoltage();
+        double voltageScaler = 12.7/voltage;
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.4 )
+        {
+
+            flinger.setPower(-voltageScaler);
+            flinger2.setPower(voltageScaler);
+
+        }
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler);
+            flinger2.setPower(-voltageScaler);
+
+        }
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 3 )
+        {}
+
+
+    }
+
+
+    //thinking about variable shot length based on number of balls
+    // two ides for making this program
+        // 1. count each ball gained only when the distance returns to normal : cons intake multiple balls may not count
+        // 2. count each intake based on time: cons highly variable based on how fast intake takes: possible solution to this is to scale the time based on voltage or voltage scale the intake
+
+
+
 
 
     protected void shootNoWait()

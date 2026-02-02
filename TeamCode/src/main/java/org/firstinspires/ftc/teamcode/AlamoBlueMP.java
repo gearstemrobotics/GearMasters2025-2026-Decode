@@ -73,7 +73,7 @@ public class AlamoBlueMP extends baseAuto {
                 .splineToSplineHeading(beginPose,280.1)
                 .build();
 
-        shoot();
+         shoot();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
