@@ -30,11 +30,11 @@ public class AlamoRedMP extends baseAuto {
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(firstBallsRed,-100.1*color)
                 //.strafeTo(new Vector2d(-11.4, 50*color))
-                .strafeTo(new Vector2d(-11.4, 35*color))
-                .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-11.4, 42*color))
-                .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-11.4, 50*color))
+              //  .strafeTo(new Vector2d(-11.4, 35*color))
+               // .waitSeconds(0.1)
+              //  .strafeTo(new Vector2d(-11.4, 42*color))
+                //.waitSeconds(0.1)
+                .strafeTo(new Vector2d(-13, 57*color))
 
                 .strafeTo(new Vector2d(-11.4, 24*color))
                 .build();
@@ -50,12 +50,12 @@ public class AlamoRedMP extends baseAuto {
                 // goes to second balls
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(secondBallsRed,-100.1*color)
-                .strafeTo(new Vector2d(12.3, 50*color))
+                .strafeTo(new Vector2d(15, 63*color))
                 .build();
 
         Action shootBalls2 = drive.actionBuilder(secondBallsRed)
                 // goes back to the goal to shoot
-                .strafeTo(new Vector2d(12.3, 24*color))
+                .strafeTo(new Vector2d(14, 24*color))
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
@@ -73,7 +73,7 @@ public class AlamoRedMP extends baseAuto {
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
-         shoot();
+         shootNoWait();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(

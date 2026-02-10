@@ -139,6 +139,8 @@ public abstract class baseAuto extends LinearOpMode {
     protected void shoot()
     {
 
+
+
         double voltage = voltageSensor.getVoltage();
         double voltageScaler = 12.7/voltage;
 
@@ -167,8 +169,34 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 3 )
+        while (stopWatch.seconds() < 0.75 )
         {}
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 1.3 )
+        {
+
+            flinger.setPower(-voltageScaler*0.76);
+            flinger2.setPower(voltageScaler*0.76);
+
+        }
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler*0.76);
+            flinger2.setPower(-voltageScaler*0.76);
+
+        }
+        stopWatch.reset();
+        while (stopWatch.seconds() < 1 )
+        {}
+
+
 
 
     }
@@ -180,7 +208,7 @@ public abstract class baseAuto extends LinearOpMode {
         double voltageScaler = 12.7/voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.4 )
+        while (stopWatch.seconds() < 1 )
         {
 
             flinger.setPower(-voltageScaler);
@@ -197,7 +225,7 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 3 )
+        while (stopWatch.seconds() < 1 )
         {}
 
 
@@ -223,8 +251,8 @@ public abstract class baseAuto extends LinearOpMode {
         while (stopWatch.seconds() < 0.4 )
         {
 
-            flinger.setPower(-voltageScaler*0.78);
-            flinger2.setPower(voltageScaler*0.78);
+            flinger.setPower(-voltageScaler);
+            flinger2.setPower(voltageScaler);
 
         }
 
@@ -233,8 +261,31 @@ public abstract class baseAuto extends LinearOpMode {
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2 )
         {
-            flinger.setPower(voltageScaler*0.78);
-            flinger2.setPower(-voltageScaler*0.78);
+            flinger.setPower(voltageScaler);
+            flinger2.setPower(-voltageScaler);
+
+        }
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 1  )
+        {}
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.4 )
+        {
+
+            flinger.setPower(-voltageScaler*0.76);
+            flinger2.setPower(voltageScaler*0.76);
+
+        }
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler*0.76);
+            flinger2.setPower(-voltageScaler*0.76);
 
         }
 

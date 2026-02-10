@@ -30,11 +30,11 @@ public class AlamoBlueMP extends baseAuto {
                 .strafeTo(new Vector2d(-46.8, -42.1))//*color))
                 .splineToSplineHeading(firstBallsBlue,100.1)
                 //.strafeTo(new Vector2d(-11.4, -50))
-                .strafeTo(new Vector2d(-11.4, -35))
-                .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-11.4, -42))
-                .waitSeconds(0.1)
-                .strafeTo(new Vector2d(-11.4, -50))
+                //.strafeTo(new Vector2d(-11.4, -35))
+              //  .waitSeconds(0.1)
+                //.strafeTo(new Vector2d(-11.4, -42))
+              //  .waitSeconds(0.1)
+                .strafeTo(new Vector2d(-13, -57))
 
                 .strafeTo(new Vector2d(-11.4, -24))
                 .build();
@@ -50,7 +50,7 @@ public class AlamoBlueMP extends baseAuto {
                 // goes to second balls
                 .strafeTo(new Vector2d(-46.8, -42.1))
                 .splineToSplineHeading(secondBallsBlue,100.1)
-                .strafeTo(new Vector2d(12.3, -50))
+                .strafeTo(new Vector2d(15, -63))
                 .build();
 
         Action shootBalls2 = drive.actionBuilder(secondBallsBlue)
@@ -73,7 +73,7 @@ public class AlamoBlueMP extends baseAuto {
                 .splineToSplineHeading(beginPose,280.1)
                 .build();
 
-         shoot();
+         shootNoWait();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
