@@ -82,39 +82,49 @@ public class DecodeDrive extends LinearOpMode {
 
 
                 // three balls
-                if (gamepad2.yWasPressed()) {
-                    stopWatch.reset();
-                    while (stopWatch.seconds() < 0.5) {
+                while (gamepad2.y) {
+                   // stopWatch.reset();
+                   /* while (stopWatch.seconds() < 0.5) {
 
                         flinger.setPower(-voltageScaler * 0.95);
                         flinger2.setPower(voltageScaler * 0.95);
 
                     }
 
+                    */
+
+                    //stopWatch.reset();
+                    //while (stopWatch.seconds() < 0.5) {
+                        flinger.setPower(-voltageScaler);
+                        flinger2.setPower(voltageScaler);
                     stopWatch.reset();
-                    while (stopWatch.seconds() < 0.3) {
-                        flinger.setPower(voltageScaler * 0.95);
-                        flinger2.setPower(-voltageScaler * 0.95);
 
-                    }
+                  //  }
 
+
+                }
+
+                while (stopWatch.seconds() > 0.1 && stopWatch.seconds() < 0.5)
+                {
+                    flinger.setPower(voltageScaler);
+                    flinger2.setPower(-voltageScaler);
 
                 }
 
                 // two balls
                 if (gamepad2.xWasPressed()) {
                     stopWatch.reset();
-                    while (stopWatch.seconds() < 0.5) {
+                    while (stopWatch.seconds() < 0.7) {
 
-                        flinger.setPower(-voltageScaler * 0.87);
-                        flinger2.setPower(voltageScaler * 0.87);
+                        flinger.setPower(-voltageScaler );
+                        flinger2.setPower(voltageScaler);
 
                     }
 
                     stopWatch.reset();
                     while (stopWatch.seconds() < 0.3) {
-                        flinger.setPower(voltageScaler * 0.87);
-                        flinger2.setPower(-voltageScaler * 0.87);
+                        flinger.setPower(voltageScaler );
+                        flinger2.setPower(-voltageScaler  );
 
                     }
 

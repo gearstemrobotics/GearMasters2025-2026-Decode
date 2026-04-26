@@ -55,7 +55,7 @@ public class AlamoRedMP extends baseAuto {
 
         Action shootBalls2 = drive.actionBuilder(secondBallsRed)
                 // goes back to the goal to shoot
-                .strafeTo(new Vector2d(14, 24*color))
+                .strafeTo(new Vector2d(12.3, 24*color))
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
@@ -73,7 +73,12 @@ public class AlamoRedMP extends baseAuto {
                 .splineToSplineHeading(beginPose,-280.1*color)
                 .build();
 
-         shootNoWait();
+
+        Action park = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(-57, 41 *color))
+                        .build();
+
+         shootNoRebound();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
@@ -96,7 +101,7 @@ public class AlamoRedMP extends baseAuto {
                             //shooter.setPower(0);
                             sleep(500);
                             shoot();
-                           // shooter.setPower(-1);
+                            shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
 
@@ -122,7 +127,8 @@ public class AlamoRedMP extends baseAuto {
                            shootNoWait();
                            // shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
-                        }
+                        },
+                        park
 
 
 

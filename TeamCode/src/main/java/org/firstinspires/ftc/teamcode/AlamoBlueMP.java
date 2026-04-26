@@ -73,7 +73,13 @@ public class AlamoBlueMP extends baseAuto {
                 .splineToSplineHeading(beginPose,280.1)
                 .build();
 
-         shootNoWait();
+
+        Action park = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(-57, -41))
+                .build();
+
+
+        shootNoRebound();
         shooter.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
@@ -123,7 +129,8 @@ public class AlamoBlueMP extends baseAuto {
                             shootNoWait();
                             //shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
-                        }
+                        },
+                        park
                         /*,
 
 

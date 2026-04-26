@@ -13,6 +13,7 @@ public abstract class baseAuto extends LinearOpMode {
 
     public Pose2d endPoseRed = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
     public Pose2d endPoseBlue = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
+    public static double shortShotValue  = 0.725 ;
 
     public Pose2d test = new Pose2d(10,-23,-90);
    // public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
@@ -145,7 +146,11 @@ public abstract class baseAuto extends LinearOpMode {
         double voltageScaler = 12.7/voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.4 )
+        while (stopWatch.seconds() < 0.75 )
+        {}
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.5 )
         {
 
             flinger.setPower(-voltageScaler);
@@ -178,8 +183,8 @@ public abstract class baseAuto extends LinearOpMode {
         while (stopWatch.seconds() < 1.3 )
         {
 
-            flinger.setPower(-voltageScaler*0.76);
-            flinger2.setPower(voltageScaler*0.76);
+            flinger.setPower(-voltageScaler*shortShotValue);
+            flinger2.setPower(voltageScaler*shortShotValue);
 
         }
 
@@ -188,19 +193,49 @@ public abstract class baseAuto extends LinearOpMode {
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2 )
         {
-            flinger.setPower(voltageScaler*0.76);
-            flinger2.setPower(-voltageScaler*0.76);
+            flinger.setPower(voltageScaler*shortShotValue);
+            flinger2.setPower(-voltageScaler*shortShotValue);
 
         }
-        stopWatch.reset();
-        while (stopWatch.seconds() < 1 )
-        {}
+
 
 
 
 
     }
 
+
+    protected void shootNoRebound()
+    {
+
+
+
+        double voltage = voltageSensor.getVoltage();
+        double voltageScaler = 12.7/voltage;
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.5 )
+        {
+
+            flinger.setPower(-voltageScaler);
+            flinger2.setPower(voltageScaler);
+
+        }
+
+
+
+
+        stopWatch.reset();
+        while (stopWatch.seconds() < 0.2 )
+        {
+            flinger.setPower(voltageScaler);
+            flinger2.setPower(-voltageScaler);
+
+        }
+
+
+
+    }
     protected void VarShoot()
     {
 
@@ -248,7 +283,7 @@ public abstract class baseAuto extends LinearOpMode {
         double voltageScaler = 12.7/voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.4 )
+        while (stopWatch.seconds() < 0.5 )
         {
 
             flinger.setPower(-voltageScaler);
@@ -274,8 +309,8 @@ public abstract class baseAuto extends LinearOpMode {
         while (stopWatch.seconds() < 0.4 )
         {
 
-            flinger.setPower(-voltageScaler*0.76);
-            flinger2.setPower(voltageScaler*0.76);
+            flinger.setPower(-voltageScaler*shortShotValue);
+            flinger2.setPower(voltageScaler*shortShotValue);
 
         }
 
@@ -284,8 +319,8 @@ public abstract class baseAuto extends LinearOpMode {
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2 )
         {
-            flinger.setPower(voltageScaler*0.76);
-            flinger2.setPower(-voltageScaler*0.76);
+            flinger.setPower(voltageScaler*shortShotValue);
+            flinger2.setPower(-voltageScaler*shortShotValue);
 
         }
 
