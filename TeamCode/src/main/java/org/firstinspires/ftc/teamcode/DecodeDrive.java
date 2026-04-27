@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,11 +23,16 @@ public class DecodeDrive extends LinearOpMode {
     
     private double powerForShooter = 0.5; 
 
+    private Servo servo1;
+    private Servo servo2;
     private DcMotor flinger;
     private DcMotor flinger2;
     private DcMotor shooter;
     private DcMotor kickStand;
     private static ElapsedTime stopWatch = new ElapsedTime();
+
+    private GoBildaPinpointDriver pinpoint;
+
 
     @Override
     public void runOpMode() {
@@ -36,12 +43,16 @@ public class DecodeDrive extends LinearOpMode {
 
     public void DoWork3() {
         BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
-                new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)));
+                new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)),
+          hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint"));
+
 
         Thread t1 = new Thread(task, "t1");
         flinger = hardwareMap.get(DcMotor.class, "flinger");
         flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
+        servo1 = hardwareMap.get(Servo.class, "servo1");
+        servo2 = hardwareMap.get(Servo.class, "servo2");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         kickStand = hardwareMap.get(DcMotor.class, "kickStand");
@@ -182,13 +193,16 @@ public class DecodeDrive extends LinearOpMode {
                 if (gamepad2.dpadUpWasPressed())
                 {
                     powerForShooter += 0.01;
+                    servo1.setPosition(1);
+                    servo2.setPosition(1);
                     
                 }
 
                 if (gamepad2.dpadDownWasPressed())
                 {
                     powerForShooter -= 0.01;
-
+                    servo1.setPosition(0);
+                    servo2.setPosition(0);
                 }
                 /*
                 if (gamepad2.right_trigger > 0) {

@@ -1,34 +1,47 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class BackGroundMechRoadRunner implements Runnable {
     private boolean isRunning = true;
 
     private MecanumDrive mecanumDrive;
     private GamepadEx GP;
+    private GoBildaPinpointDriver pinpoint;
+
 
     //All motors
-    public BackGroundMechRoadRunner(GamepadEx gamepad, MecanumDrive MD) {
+    public BackGroundMechRoadRunner(GamepadEx gamepad, MecanumDrive MD, GoBildaPinpointDriver odo) {
         GP = gamepad;
         mecanumDrive = MD;
+        pinpoint = odo;
     }
 
 
     @Override
     public void run() {
+        pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+
 
         while (isRunning) {
             // Do the work
-
+            /*
             double pivot = -GP.getRightX();
             double horizontal = -GP.getLeftX();
             double vertical = GP.getLeftY();
+            odo.update();
+            double heading = odo.getHeading(AngleUnit.RADIANS);
+
 
             if (GP.getButton(GamepadKeys.Button.RIGHT_BUMPER))
             {
@@ -44,9 +57,32 @@ public class BackGroundMechRoadRunner implements Runnable {
                 vertical = vertical/4;
             }
 
+
+             */
+
+            pinpoint.update();
+            double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+
+            double vertical = -GP.getLeftY();
+            double horizontal = -GP.getLeftX();
+            double pivot = -GP.getRightX();
+            Rotation2d rotation = Rotation2d.exp(-heading);
+
+            Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));
+
+
+            PoseVelocity2d powers = new PoseVelocity2d(fieldRelativeVector, pivot);
+            mecanumDrive.setDrivePowers(powers);
+
+
+
+
+/*
             Vector2d linearVelocity = new Vector2d(vertical, horizontal);
             PoseVelocity2d powers = new PoseVelocity2d(linearVelocity, pivot);
             mecanumDrive.setDrivePowers(powers);
+
+ */
         }
 
         // Stop running
