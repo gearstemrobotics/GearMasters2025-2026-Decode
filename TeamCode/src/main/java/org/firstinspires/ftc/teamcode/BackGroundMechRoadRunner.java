@@ -19,6 +19,12 @@ public class BackGroundMechRoadRunner implements Runnable {
     private GamepadEx GP;
     private GoBildaPinpointDriver pinpoint;
 
+    private double adjustedHeading = 0;
+    private double headingDiff = 0;
+
+    private double finalHeading = 0;
+    private double heading = 0;
+
 
     //All motors
     public BackGroundMechRoadRunner(GamepadEx gamepad, MecanumDrive MD, GoBildaPinpointDriver odo) {
@@ -60,13 +66,30 @@ public class BackGroundMechRoadRunner implements Runnable {
 
              */
 
+            headingDiff = heading;
             pinpoint.update();
-            double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+            heading = pinpoint.getHeading(AngleUnit.RADIANS);
+
+
+            adjustedHeading = heading - headingDiff;
+
+            finalHeading += adjustedHeading;
+
+
+            if (GP.getButton(GamepadKeys.Button.A))
+            {
+                finalHeading = 0;
+
+            }
+
+
+
+
 
             double vertical = -GP.getLeftY();
-            double horizontal = -GP.getLeftX();
+            double horizontal = GP.getLeftX();
             double pivot = -GP.getRightX();
-            Rotation2d rotation = Rotation2d.exp(-heading);
+            Rotation2d rotation = Rotation2d.exp(-finalHeading);
 
             Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));
 
