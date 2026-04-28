@@ -78,7 +78,9 @@ public class BackGroundMechRoadRunner implements Runnable {
 
             if (GP.getButton(GamepadKeys.Button.A))
             {
-                finalHeading = 0;
+               // finalHeading = 0;
+                pinpoint.setHeading(0,AngleUnit.RADIANS);
+                //pinpoint.resetPosAndIMU();
 
             }
 
@@ -89,7 +91,7 @@ public class BackGroundMechRoadRunner implements Runnable {
             double vertical = -GP.getLeftY();
             double horizontal = GP.getLeftX();
             double pivot = -GP.getRightX();
-            Rotation2d rotation = Rotation2d.exp(-finalHeading);
+            Rotation2d rotation = Rotation2d.exp(-heading);
 
             Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));
 
