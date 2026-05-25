@@ -5,9 +5,11 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -17,18 +19,25 @@ public class BackGroundMechRoadRunner implements Runnable {
 
     private MecanumDrive mecanumDrive;
     private GamepadEx GP;
+    private GamepadEx GP2;
+    private boolean switcher = true;
+    private Servo posServo1;
+    private Servo posServo2;
     private GoBildaPinpointDriver pinpoint;
 
-    private double adjustedHeading = 0;
-    private double headingDiff = 0;
+ //   private double adjustedHeading = 0;
+    //private double headingDiff = 0;
 
-    private double finalHeading = 0;
-    private double heading = 0;
+   // private double finalHeading = 0;
+  //  private double heading = 0;
 
 
     //All motors
-    public BackGroundMechRoadRunner(GamepadEx gamepad, MecanumDrive MD, GoBildaPinpointDriver odo) {
-        GP = gamepad;
+    public BackGroundMechRoadRunner(GamepadEx gamepad1,GamepadEx gamepad2,Servo backServo1, Servo backServo2, MecanumDrive MD, GoBildaPinpointDriver odo) {
+        GP = gamepad1;
+        GP2 = gamepad2;
+        posServo1 = backServo1;
+        posServo2 = backServo2;
         mecanumDrive = MD;
         pinpoint = odo;
     }
@@ -36,10 +45,34 @@ public class BackGroundMechRoadRunner implements Runnable {
 
     @Override
     public void run() {
+
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
 
 
         while (isRunning) {
+
+            if (GP2.getButton(GamepadKeys.Button.DPAD_UP))
+            {
+                if(switcher){
+                posServo1.setPosition(1);
+                posServo2.setPosition(0);
+                switcher = false;
+                }
+                else{
+                    posServo1.setPosition(0);
+                    posServo2.setPosition(1);
+                    switcher = true;
+                }
+
+
+            }
+
+         //   if (GP2.getButton(GamepadKeys.Button.DPAD_DOWN))
+           // {
+
+             //   posServo1.setPosition(1);
+               // posServo2.setPosition(0);
+            //}
             // Do the work
             /*
             double pivot = -GP.getRightX();
@@ -66,21 +99,20 @@ public class BackGroundMechRoadRunner implements Runnable {
 
              */
 
-            headingDiff = heading;
-            pinpoint.update();
-            heading = pinpoint.getHeading(AngleUnit.RADIANS);
+         //   headingDiff = heading;
 
 
-            adjustedHeading = heading - headingDiff;
 
-            finalHeading += adjustedHeading;
+           // adjustedHeading = heading - headingDiff;
+
+            //finalHeading += adjustedHeading;
 
 
             if (GP.getButton(GamepadKeys.Button.A))
             {
                // finalHeading = 0;
-                pinpoint.setHeading(0,AngleUnit.RADIANS);
-                //pinpoint.resetPosAndIMU();
+              //  pinpoint.setHeading(0,AngleUnit.RADIANS);
+                pinpoint.resetPosAndIMU();
 
             }
 
@@ -88,26 +120,48 @@ public class BackGroundMechRoadRunner implements Runnable {
 
 
 
-            double vertical = -GP.getLeftY();
-            double horizontal = GP.getLeftX();
+            double vertical = GP.getLeftY();
+            double horizontal = -GP.getLeftX();
             double pivot = -GP.getRightX();
-            Rotation2d rotation = Rotation2d.exp(-heading);
 
-            Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));
+            if (GP.getButton(GamepadKeys.Button.LEFT_BUMPER))
+            {
+                pivot = pivot/4;
+                horizontal = horizontal/4;
+                vertical = vertical/4;
+            }
+
+            if(GP.getButton(GamepadKeys.Button.RIGHT_BUMPER)){
 
 
-            PoseVelocity2d powers = new PoseVelocity2d(fieldRelativeVector, pivot);
-            mecanumDrive.setDrivePowers(powers);
+                Vector2d linearVelocity = new Vector2d(vertical, horizontal);
+                PoseVelocity2d powers = new PoseVelocity2d(linearVelocity, pivot);
+                mecanumDrive.setDrivePowers(powers);
+            }
+            else
+            {
+                pinpoint.update();
+                double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+                Rotation2d rotation = Rotation2d.exp(-heading);
+                Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));
+                PoseVelocity2d powers = new PoseVelocity2d(fieldRelativeVector, pivot);
+                mecanumDrive.setDrivePowers(powers);
+            }
 
 
 
 
-/*
-            Vector2d linearVelocity = new Vector2d(vertical, horizontal);
-            PoseVelocity2d powers = new PoseVelocity2d(linearVelocity, pivot);
-            mecanumDrive.setDrivePowers(powers);
 
- */
+
+
+
+
+
+
+
+
+
+
         }
 
         // Stop running

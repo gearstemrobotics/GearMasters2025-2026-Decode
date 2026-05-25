@@ -6,6 +6,7 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -23,8 +24,9 @@ public class DecodeDrive extends LinearOpMode {
     
     private double powerForShooter = 0.5; 
 
-    private Servo servo1;
-    private Servo servo2;
+   private CRServo intakeServo1;
+   private CRServo intakeServo2;
+
     private DcMotor flinger;
     private DcMotor flinger2;
     private DcMotor shooter;
@@ -42,7 +44,9 @@ public class DecodeDrive extends LinearOpMode {
 
 
     public void DoWork3() {
-        BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
+        BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),new GamepadEx(gamepad2)
+                ,hardwareMap.get(Servo.class, "servo1")
+        ,hardwareMap.get(Servo.class, "servo2"),
                 new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)),
           hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint"));
 
@@ -51,8 +55,9 @@ public class DecodeDrive extends LinearOpMode {
         flinger = hardwareMap.get(DcMotor.class, "flinger");
         flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
-        servo1 = hardwareMap.get(Servo.class, "servo1");
-        servo2 = hardwareMap.get(Servo.class, "servo2");
+
+        intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
+        intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         kickStand = hardwareMap.get(DcMotor.class, "kickStand");
@@ -68,12 +73,16 @@ public class DecodeDrive extends LinearOpMode {
 
                 flinger.setPower(-gamepad2.left_stick_y);
                 flinger2.setPower(gamepad2.left_stick_y);
+                intakeServo1.setPower(gamepad2.right_stick_y);
+                intakeServo2.setPower(-gamepad2.right_stick_y);
+
                 shooter.setPower(-gamepad2.right_stick_y);
                 kickStand.setPower(gamepad2.right_trigger);
                 kickStand.setPower(-gamepad2.left_trigger);
 
                 double voltage = voltageSensor.getVoltage();
                 double voltageScaler = 12.7 / voltage;
+                boolean runUp = false;
 
                 //kickStand.setPower(gamepad2.right_stick_x);
                 //shooter.setPower(-gamepad2.left_trigger);
@@ -93,8 +102,11 @@ public class DecodeDrive extends LinearOpMode {
 
 
                 // three balls
-                while (gamepad2.y) {
-                   // stopWatch.reset();
+                if (gamepad2.y){
+
+
+                    while (true) {
+                        // stopWatch.reset();
                    /* while (stopWatch.seconds() < 0.5) {
 
                         flinger.setPower(-voltageScaler * 0.95);
@@ -104,38 +116,51 @@ public class DecodeDrive extends LinearOpMode {
 
                     */
 
-                    //stopWatch.reset();
-                    //while (stopWatch.seconds() < 0.5) {
-                        flinger.setPower(-voltageScaler);
-                        flinger2.setPower(voltageScaler);
+                        //stopWatch.reset();
+                        //while (stopWatch.seconds() < 0.5) {
+                        flinger.setPower(-1);
+                        flinger2.setPower(1);
+                        // stopWatch.reset();
+
+                        //  }
+                        if (!gamepad2.y){
+                            runUp = true;
+                            break;
+
+                        }
+
+                    }
+                }
+
+                if(runUp){
                     stopWatch.reset();
-
-                  //  }
-
-
-                }
-
-                while (stopWatch.seconds() > 0.1 && stopWatch.seconds() < 0.5)
+                while (stopWatch.seconds() > 0 && stopWatch.seconds() < 0.75)
                 {
-                    flinger.setPower(voltageScaler);
-                    flinger2.setPower(-voltageScaler);
+                    flinger.setPower(1);
+                    flinger2.setPower(-1);
 
-                }
+                }}
 
                 // two balls
                 if (gamepad2.xWasPressed()) {
                     stopWatch.reset();
                     while (stopWatch.seconds() < 0.7) {
 
-                        flinger.setPower(-voltageScaler );
-                        flinger2.setPower(voltageScaler);
+                        //flinger.setPower(-voltageScaler );
+                        //flinger2.setPower(voltageScaler);
+
+                        flinger.setPower(-1);
+                        flinger2.setPower(1);
 
                     }
 
                     stopWatch.reset();
                     while (stopWatch.seconds() < 0.3) {
-                        flinger.setPower(voltageScaler );
-                        flinger2.setPower(-voltageScaler  );
+                       // flinger.setPower(voltageScaler );
+                        //flinger2.setPower(-voltageScaler  );
+
+                        flinger.setPower(-1);
+                        flinger2.setPower(1);
 
                     }
 
@@ -190,20 +215,7 @@ public class DecodeDrive extends LinearOpMode {
                 }
                 
                 
-                if (gamepad2.dpadUpWasPressed())
-                {
-                    powerForShooter += 0.01;
-                    servo1.setPosition(1);
-                    servo2.setPosition(1);
-                    
-                }
 
-                if (gamepad2.dpadDownWasPressed())
-                {
-                    powerForShooter -= 0.01;
-                    servo1.setPosition(0);
-                    servo2.setPosition(0);
-                }
                 /*
                 if (gamepad2.right_trigger > 0) {
                     gripper2.setPower(gamepad2.right_trigger);
