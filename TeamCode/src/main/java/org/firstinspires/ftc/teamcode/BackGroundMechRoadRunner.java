@@ -19,11 +19,8 @@ public class BackGroundMechRoadRunner implements Runnable {
 
     private MecanumDrive mecanumDrive;
     private GamepadEx GP;
-    private GamepadEx GP2;
-    private boolean switcher = true;
-    private Servo posServo1;
-    private Servo posServo2;
-    private GoBildaPinpointDriver pinpoint;
+
+        private GoBildaPinpointDriver pinpoint;
 
  //   private double adjustedHeading = 0;
     //private double headingDiff = 0;
@@ -33,12 +30,9 @@ public class BackGroundMechRoadRunner implements Runnable {
 
 
     //All motors
-    public BackGroundMechRoadRunner(GamepadEx gamepad1,GamepadEx gamepad2,Servo backServo1, Servo backServo2, MecanumDrive MD, GoBildaPinpointDriver odo) {
+    public BackGroundMechRoadRunner(GamepadEx gamepad1, MecanumDrive MD, GoBildaPinpointDriver odo) {
         GP = gamepad1;
-        GP2 = gamepad2;
-        posServo1 = backServo1;
-        posServo2 = backServo2;
-        mecanumDrive = MD;
+          mecanumDrive = MD;
         pinpoint = odo;
     }
 
@@ -51,21 +45,7 @@ public class BackGroundMechRoadRunner implements Runnable {
 
         while (isRunning) {
 
-            if (GP2.getButton(GamepadKeys.Button.DPAD_UP))
-            {
-                if(switcher){
-                posServo1.setPosition(1);
-                posServo2.setPosition(0);
-                switcher = false;
-                }
-                else{
-                    posServo1.setPosition(0);
-                    posServo2.setPosition(1);
-                    switcher = true;
-                }
 
-
-            }
 
          //   if (GP2.getButton(GamepadKeys.Button.DPAD_DOWN))
            // {

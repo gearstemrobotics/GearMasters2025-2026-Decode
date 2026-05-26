@@ -24,40 +24,51 @@ public class DecodeDrive extends LinearOpMode {
     
     private double powerForShooter = 0.5; 
 
-   private CRServo intakeServo1;
-   private CRServo intakeServo2;
+
 
     private DcMotor flinger;
     private DcMotor flinger2;
-    private DcMotor shooter;
+
     private DcMotor kickStand;
     private static ElapsedTime stopWatch = new ElapsedTime();
 
-    private GoBildaPinpointDriver pinpoint;
+
 
 
     @Override
     public void runOpMode() {
 
         DoWork3();
+
     }
 
 
     public void DoWork3() {
-        BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),new GamepadEx(gamepad2)
-                ,hardwareMap.get(Servo.class, "servo1")
-        ,hardwareMap.get(Servo.class, "servo2"),
+        BackGroundMechRoadRunner task = new BackGroundMechRoadRunner(new GamepadEx(gamepad1),
                 new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0)),
           hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint"));
 
 
         Thread t1 = new Thread(task, "t1");
+
+        BackGroundOtherStuff task2 = new BackGroundOtherStuff(new GamepadEx(gamepad2)
+                ,hardwareMap.get(Servo.class, "servo1")
+                ,hardwareMap.get(Servo.class, "servo2"),
+                hardwareMap.get(CRServo.class, "intakeServo1")
+                ,hardwareMap.get(CRServo.class, "intakeServo2"),
+                 hardwareMap.get(DcMotor.class, "shooter"));
+
+        Thread t2 = new Thread(task2, "t2");
+
+
+
+
+
         flinger = hardwareMap.get(DcMotor.class, "flinger");
         flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
 
-        intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
-        intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
+
+
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         kickStand = hardwareMap.get(DcMotor.class, "kickStand");
@@ -68,15 +79,12 @@ public class DecodeDrive extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             t1.start();
-            //t2.start();
+            t2.start();
             while (opModeIsActive()) {
 
                 flinger.setPower(-gamepad2.left_stick_y);
                 flinger2.setPower(gamepad2.left_stick_y);
-                intakeServo1.setPower(gamepad2.right_stick_y);
-                intakeServo2.setPower(-gamepad2.right_stick_y);
 
-                shooter.setPower(-gamepad2.right_stick_y);
                 kickStand.setPower(gamepad2.right_trigger);
                 kickStand.setPower(-gamepad2.left_trigger);
 
