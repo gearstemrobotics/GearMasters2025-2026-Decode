@@ -7,24 +7,33 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 public abstract class baseAuto extends LinearOpMode {
 
 
     public Pose2d endPoseRed = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
     public Pose2d endPoseBlue = new Pose2d(new Vector2d(-47, -52), Math.toRadians(-490));
-    public static double shortShotValue  = 0.725 ;
 
-    public Pose2d test = new Pose2d(10,-23,-90);
-   // public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
-   // public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
 
-    Pose2d firstBallsRed = new Pose2d(-11,24,1.57);
-    Pose2d secondBallsRed = new Pose2d(12.3,24,1.57);
-    Pose2d thirdBallsRed = new Pose2d(35.8,24,1.57);
-    Pose2d firstBallsBlue = new Pose2d(-11,-24,-1.57);
-    Pose2d secondBallsBlue = new Pose2d(12.3,-24,-1.57);
-    Pose2d thirdBallsBlue = new Pose2d(35.8,-24,-1.57);
+    Pose2d beginPoseRed = new Pose2d(new Vector2d(-52.05, 47.05), Math.toRadians(487));
+
+    Pose2d beginPoseBlue = new Pose2d(new Vector2d(-52.05, -47.05), Math.toRadians(-487));
+
+    public Pose2d newBeginPoseRed = new Pose2d(new Vector2d(-50.05, 45.05), Math.toRadians(487));
+    public Pose2d newBeginPoseBlue = new Pose2d(new Vector2d(-50.05, -45.05), Math.toRadians(-487));
+    public static double shortShotValue = 0.725;
+
+    public Pose2d test = new Pose2d(10, -23, -90);
+    // public Pose2d firstBallsBlue = new Pose2d(-11,24,1.57);
+    // public Pose2d secondBallsBlue = new Pose2d(12,24,1.57);
+
+    Pose2d firstBallsRed = new Pose2d(-11, 24, 1.57);
+    Pose2d secondBallsRed = new Pose2d(12.3, 24, 1.57);
+    Pose2d thirdBallsRed = new Pose2d(35.8, 24, 1.57);
+    Pose2d firstBallsBlue = new Pose2d(-11, -24, -1.57);
+    Pose2d secondBallsBlue = new Pose2d(12.3, -24, -1.57);
+    Pose2d thirdBallsBlue = new Pose2d(35.8, -24, -1.57);
   /*  public static class Locations
     {
         public enum Pose
@@ -71,49 +80,46 @@ public abstract class baseAuto extends LinearOpMode {
    */
 
 
-
     protected DcMotor flinger;
     protected DcMotor flinger2;
     protected DcMotor shooter;
     protected static ElapsedTime stopWatch = new ElapsedTime();
     protected VoltageSensor voltageSensor;
 
+
+    protected CRServo intakeServo1;
+    protected CRServo intakeServo2;
+
+
     protected Pose2d beginPose = null;
-    protected  MecanumDrive drive = null;
+    protected MecanumDrive drive = null;
     public double color;
 
 
+    public baseAuto() {
+    }
 
-   public baseAuto() {}
 
-
-    protected void setBeginPoseAndInitDrive(double x, double y, double rad)
-    {
+    protected void setBeginPoseAndInitDrive(double x, double y, double rad) {
         beginPose = new Pose2d(new Vector2d(x, y), Math.toRadians(rad));
         drive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(x, y), Math.toRadians(rad)));
     }
 
 
-    protected void isBlue(boolean blue)
-    {
-        if(blue){
-             color = -1;
-        }
-
-        else
-        {
+    protected void isBlue(boolean blue) {
+        if (blue) {
+            color = -1;
+        } else {
             color = 1;
         }
 
 
-
     }
 
-    protected void shootUp()
-    {
+    protected void shootUp() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
         /*
         stopWatch.reset();
         while (stopWatch.seconds() < 0.4 )
@@ -127,8 +133,7 @@ public abstract class baseAuto extends LinearOpMode {
          */
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
+        while (stopWatch.seconds() < 0.2) {
             flinger.setPower(voltageScaler);
             flinger2.setPower(-voltageScaler);
 
@@ -137,21 +142,18 @@ public abstract class baseAuto extends LinearOpMode {
 
     }
 
-    protected void shoot()
-    {
-
+    protected void shoot() {
 
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.75 )
-        {}
+        while (stopWatch.seconds() < 0.75) {
+        }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.5 )
-        {
+        while (stopWatch.seconds() < 0.5) {
 
             flinger.setPower(-voltageScaler);
             flinger2.setPower(voltageScaler);
@@ -159,63 +161,46 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
 
-
-
-
-
-
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
+        while (stopWatch.seconds() < 0.2) {
             flinger.setPower(voltageScaler);
             flinger2.setPower(-voltageScaler);
 
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.75 )
-        {}
-
+        while (stopWatch.seconds() < 0.75) {
+        }
 
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 1.3 )
-        {
+        while (stopWatch.seconds() < 1.3) {
 
-            flinger.setPower(-voltageScaler*shortShotValue);
-            flinger2.setPower(voltageScaler*shortShotValue);
+            flinger.setPower(-voltageScaler * shortShotValue);
+            flinger2.setPower(voltageScaler * shortShotValue);
 
         }
 
 
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
-            flinger.setPower(voltageScaler*shortShotValue);
-            flinger2.setPower(-voltageScaler*shortShotValue);
+        while (stopWatch.seconds() < 0.2) {
+            flinger.setPower(voltageScaler * shortShotValue);
+            flinger2.setPower(-voltageScaler * shortShotValue);
 
         }
-
-
-
 
 
     }
 
 
-    protected void shootNoRebound()
-    {
-
+    protected void shootNoRebound() {
 
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.5 )
-        {
+        while (stopWatch.seconds() < 0.5) {
 
             flinger.setPower(-voltageScaler);
             flinger2.setPower(voltageScaler);
@@ -223,28 +208,23 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
 
-
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
+        while (stopWatch.seconds() < 0.2) {
             flinger.setPower(voltageScaler);
             flinger2.setPower(-voltageScaler);
 
         }
-
 
 
     }
-    protected void VarShoot()
-    {
+
+    protected void VarShoot() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 1 )
-        {
+        while (stopWatch.seconds() < 1) {
 
             flinger.setPower(-voltageScaler);
             flinger2.setPower(voltageScaler);
@@ -252,16 +232,15 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
+        while (stopWatch.seconds() < 0.2) {
             flinger.setPower(voltageScaler);
             flinger2.setPower(-voltageScaler);
 
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 1 )
-        {}
+        while (stopWatch.seconds() < 1) {
+        }
 
 
     }
@@ -269,22 +248,17 @@ public abstract class baseAuto extends LinearOpMode {
 
     //thinking about variable shot length based on number of balls
     // two ides for making this program
-        // 1. count each ball gained only when the distance returns to normal : cons intake multiple balls may not count
-        // 2. count each intake based on time: cons highly variable based on how fast intake takes: possible solution to this is to scale the time based on voltage or voltage scale the intake
+    // 1. count each ball gained only when the distance returns to normal : cons intake multiple balls may not count
+    // 2. count each intake based on time: cons highly variable based on how fast intake takes: possible solution to this is to scale the time based on voltage or voltage scale the intake
 
 
-
-
-
-    protected void shootNoWait()
-    {
+    protected void shootNoWait() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.5 )
-        {
+        while (stopWatch.seconds() < 0.5) {
 
             flinger.setPower(-voltageScaler);
             flinger2.setPower(voltageScaler);
@@ -292,71 +266,60 @@ public abstract class baseAuto extends LinearOpMode {
         }
 
 
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
+        while (stopWatch.seconds() < 0.2) {
             flinger.setPower(voltageScaler);
             flinger2.setPower(-voltageScaler);
 
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 1  )
-        {}
+        while (stopWatch.seconds() < 1) {
+        }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.4 )
-        {
+        while (stopWatch.seconds() < 0.4) {
 
-            flinger.setPower(-voltageScaler*shortShotValue);
-            flinger2.setPower(voltageScaler*shortShotValue);
+            flinger.setPower(-voltageScaler * shortShotValue);
+            flinger2.setPower(voltageScaler * shortShotValue);
 
         }
 
 
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
-            flinger.setPower(voltageScaler*shortShotValue);
-            flinger2.setPower(-voltageScaler*shortShotValue);
+        while (stopWatch.seconds() < 0.2) {
+            flinger.setPower(voltageScaler * shortShotValue);
+            flinger2.setPower(-voltageScaler * shortShotValue);
 
         }
-
-
 
 
     }
 
-    protected void shootSmall()
-    {
+    protected void shootSmall() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7/voltage;
+        double voltageScaler = 12.7 / voltage;
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.4 )
-        {
+        while (stopWatch.seconds() < 0.4) {
 
-            flinger.setPower(-voltageScaler*0.78);
-            flinger2.setPower(voltageScaler*0.78);
+            flinger.setPower(-voltageScaler * 0.78);
+            flinger2.setPower(voltageScaler * 0.78);
 
         }
 
 
-
         stopWatch.reset();
-        while (stopWatch.seconds() < 0.2 )
-        {
-            flinger.setPower(voltageScaler*0.78);
-            flinger2.setPower(-voltageScaler*0.78);
+        while (stopWatch.seconds() < 0.2) {
+            flinger.setPower(voltageScaler * 0.78);
+            flinger2.setPower(-voltageScaler * 0.78);
 
         }
 
         stopWatch.reset();
-        while (stopWatch.seconds() < 3 )
-        {}
+        while (stopWatch.seconds() < 3) {
+        }
 
 
     }
@@ -382,7 +345,7 @@ public abstract class baseAuto extends LinearOpMode {
 
 
         if (opModeIsActive()) {
-           PrepMotor();
+            PrepMotor();
             RunOpModeInnerLoop();
         }
     }
@@ -392,6 +355,9 @@ public abstract class baseAuto extends LinearOpMode {
         flinger = hardwareMap.get(DcMotor.class, "flinger");
         flinger2 = hardwareMap.get(DcMotor.class, "flinger2");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
+
+        intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
+        intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
     }
 

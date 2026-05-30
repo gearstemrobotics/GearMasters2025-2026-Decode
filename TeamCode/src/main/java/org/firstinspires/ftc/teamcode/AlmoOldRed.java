@@ -10,13 +10,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
 @Autonomous
-public class AlamoRedMP extends baseAuto {
+public class AlmoOldRed extends baseAuto {
 
     @Override
     protected void RunInit() {
-       color = 1; // isBlue(false);
-       // setBeginPoseAndInitDrive(-52.05, 47.05 * color, 487 * color);
-        setBeginPoseAndInitDrive(-50.05, 45.05,487);
+        color = 1; // isBlue(false);
+        setBeginPoseAndInitDrive(-52.05, 47.05 * color, 487 * color);
+
 
     }
 
@@ -25,28 +25,14 @@ public class AlamoRedMP extends baseAuto {
 
         // Delcare Trajectory as such
 
-
-
-
-
-
-        Action initialMoveBack = drive.actionBuilder(beginPoseRed)
-                //goes to the first balls
-                .strafeTo(new Vector2d(-50.05, 45.05))
-                .build();
-
-
-
-
-
         Action collectBalls1 = drive.actionBuilder(drive.localizer.getPose())
                 //goes to the first balls
                 .strafeTo(new Vector2d(-46.8, 42.1*color))
                 .splineToSplineHeading(firstBallsRed,-100.1*color)
                 //.strafeTo(new Vector2d(-11.4, 50*color))
-              //  .strafeTo(new Vector2d(-11.4, 35*color))
-               // .waitSeconds(0.1)
-              //  .strafeTo(new Vector2d(-11.4, 42*color))
+                //  .strafeTo(new Vector2d(-11.4, 35*color))
+                // .waitSeconds(0.1)
+                //  .strafeTo(new Vector2d(-11.4, 42*color))
                 //.waitSeconds(0.1)
                 .strafeTo(new Vector2d(-13, 57*color))
 
@@ -90,33 +76,22 @@ public class AlamoRedMP extends baseAuto {
 
         Action park = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-57, 41 *color))
-                        .build();
+                .build();
 
-
+        shootNoRebound();
+        shooter.setPower(-1);
+        intakeServo1.setPower(1);
+        intakeServo2.setPower(-1);
         Actions.runBlocking(
                 new SequentialAction(
-
-                        initialMoveBack,
-                        (telemetryPacket) -> {
-                            telemetry.addLine("Action!");
-                            telemetry.update();
-                            sleep(500);
-                            // flinger.setPower(-1);
-                            shootNoRebound();
-                            shooter.setPower(-1);
-                            intakeServo1.setPower(1);
-                            intakeServo2.setPower(-1);
-                            // flinger2.setPower(1);
-                            return false; // Returning true causes the action to run again, returning false causes it to cease
-                        },
 
                         collectBalls1, // Example of a drive action
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
-                           // shooter.setPower(0);
+                            // shooter.setPower(0);
                             sleep(500);
-                           // flinger.setPower(-1);
+                            // flinger.setPower(-1);
                             //flinger2.setPower(1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
@@ -140,19 +115,19 @@ public class AlamoRedMP extends baseAuto {
                             telemetry.addLine("Action!");
                             telemetry.update();
                             sleep(500);
-                           // shooter.setPower(0);
-                           // flinger.setPower(-1);
-                           // flinger2.setPower(1);
+                            // shooter.setPower(0);
+                            // flinger.setPower(-1);
+                            // flinger2.setPower(1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
                         shootBalls2,
                         (telemetryPacket) -> {
                             telemetry.addLine("Action!");
                             telemetry.update();
-                           // shooter.setPower(0);
+                            // shooter.setPower(0);
                             sleep(500);
-                           shootNoWait();
-                           // shooter.setPower(-1);
+                            shootNoWait();
+                            // shooter.setPower(-1);
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         },
                         park

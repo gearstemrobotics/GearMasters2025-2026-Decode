@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -19,7 +20,7 @@ public class BackGroundMechRoadRunner implements Runnable {
 
     private MecanumDrive mecanumDrive;
     private GamepadEx GP;
-
+    private static ElapsedTime sleeper = new ElapsedTime();
         private GoBildaPinpointDriver pinpoint;
 
  //   private double adjustedHeading = 0;
@@ -120,7 +121,12 @@ public class BackGroundMechRoadRunner implements Runnable {
             }
             else
             {
-                pinpoint.update();
+                if (sleeper.milliseconds() > 10)
+                {
+                    pinpoint.update();
+                    sleeper.reset();
+                }
+
                 double heading = pinpoint.getHeading(AngleUnit.RADIANS);
                 Rotation2d rotation = Rotation2d.exp(-heading);
                 Vector2d fieldRelativeVector = rotation.times(new Vector2d(vertical, horizontal));

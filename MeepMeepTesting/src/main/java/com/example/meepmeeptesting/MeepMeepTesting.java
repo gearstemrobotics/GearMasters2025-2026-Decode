@@ -30,18 +30,45 @@ public class MeepMeepTesting {
         //  Pose2d beginPose = new Pose2d(new Vector2d(-52, -45), Math.toRadians(-135));
         //Pose2d endPose = new Pose2d(new Vector2d(10, 23), Math.toRadians(-80));
         Pose2d beginPose =   new Pose2d(new Vector2d(-52.05, 47.05*color), Math.toRadians(487*color));
+        Pose2d newBeginPose =   new Pose2d(new Vector2d(-50.05, 45.05*color), Math.toRadians(487*color));
         Pose2d test = new Pose2d(10,-23,-90);
         Pose2d firstBalls = new Pose2d(-11,24*color,1.57*color);
         Pose2d secondBalls = new Pose2d(12.3,24*color,1.57*color);
+        Pose2d HitGateSecondBalls = new Pose2d(11,24*color,1.57*color);
         Pose2d thirdBalls = new Pose2d(35.8,24*color,1.57*color);
         Pose2d end = new Pose2d(-47,12*color,1.57*color);
         Pose2d beginPoseBeforeStrafe =   new Pose2d(new Vector2d(-46.8, 42.1), Math.toRadians(487));
-        myBot.runAction(myBot.getDrive().actionBuilder(beginPose) //new Pose2d(30, 0, 90))
+        Pose2d backShootBegin =   new Pose2d(new Vector2d(61.5, -12), Math.toRadians(180));
+
+        myBot.runAction(myBot.getDrive().actionBuilder(backShootBegin) //new Pose2d(30, 0, 90))
+
+
+                .strafeTo(new Vector2d(49.5, -13.5))
+                .turnTo(-2.70)
+
+
+                .turnTo(-3.13)
+                .strafeTo(new Vector2d(61.5, -60.8))
+
+
+
 
                 // .strafeTo(origin.position)
                       //  .turnTo(200)
                       //  .strafeTo(46,47,9)
 
+
+              //  .strafeTo(new Vector2d(-50.05, 45*color))
+
+/**
+                // goes to second balls
+                .strafeTo(new Vector2d(-46.8, 42.1*color))
+                .splineToSplineHeading(secondBalls,-100.1*color)
+                .strafeTo(new Vector2d(9, 53*color))
+
+                //goes back and shoots
+                .strafeTo(new Vector2d(12.3, 24*color))
+                .splineToSplineHeading(newBeginPose,-280.1*color)
 
 
                 //goes to the first balls
@@ -51,31 +78,31 @@ public class MeepMeepTesting {
 
                 // goes back to the goal to shoot
                 .strafeTo(new Vector2d(-11, 24*color))
-                .splineToSplineHeading(beginPose,-280.1*color)
+                .splineToSplineHeading(newBeginPose,-280.1*color)
               //  .strafeTo(new Vector2d(-52.2, 47.2))
 
 
-                // goes to second balls
-                .strafeTo(new Vector2d(-46.8, 42.1*color))
-                .splineToSplineHeading(secondBalls,-100.1*color)
-                .strafeTo(new Vector2d(12.3, 50*color))
+**/
 
-                //goes back and shoots
-                .strafeTo(new Vector2d(12.3, 24*color))
-                .splineToSplineHeading(beginPose,-280.1*color)
 
+
+              //  .strafeTo(new Vector2d(-59.2, 14.3 *color))
+
+
+               // .strafeTo(new Vector2d(-50.05, 45*color))
 
                 // goes and gets the third balls
-                .strafeTo(new Vector2d(-46.8, 42.1*color))
-                .splineToSplineHeading(thirdBalls,-100.1*color)
-                .strafeTo(new Vector2d(35.8, 50*color))
+                //.strafeTo(new Vector2d(-46.8, 42.1*color))
+                //.splineToSplineHeading(thirdBalls,-100.1*color)
+                //.strafeTo(new Vector2d(35.8, 50*color))
 
 
                 // goes back and shoots
-                .strafeTo(new Vector2d(35.8, 24*color))
-                .splineToSplineHeading(beginPose,-280.1*color)
+                //.strafeTo(new Vector2d(35.8, 24*color))
+               // .splineToSplineHeading(beginPose,-280.1*color)
 
-                .strafeTo(new Vector2d(-57, 41 *color))
+                //.strafeTo(new Vector2d(49.5, -13.5 *color))
+                //.turnTo(-2.75)
                 //.splineToSplineHeading(end,-280*color)
 
 
@@ -108,14 +135,14 @@ public class MeepMeepTesting {
                 //.turnTo(-4.7)
 
 
-/*
-                .strafeTo(new Vector2d(-45, -52))
-                .splineToSplineHeading(secondBalls,9)
-                .strafeTo(new Vector2d(12, -40))
-                .splineToSplineHeading(beginPose,110)
+
+              //  .strafeTo(new Vector2d(-45, -52))
+               // .splineToSplineHeading(secondBalls,9)
+               // .strafeTo(new Vector2d(12, -40))
+                //.splineToSplineHeading(beginPose,110)
 
 
- */
+
 
                //                 .lineToXSplineHeading(endPose,-100)
 

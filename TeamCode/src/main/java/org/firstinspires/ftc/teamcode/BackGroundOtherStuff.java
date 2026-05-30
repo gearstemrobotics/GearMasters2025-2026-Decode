@@ -23,6 +23,7 @@ public class BackGroundOtherStuff implements Runnable {
     private CRServo intakeServo1;
     private CRServo intakeServo2;
 
+    private boolean slowIntake = false ;
 
     private DcMotor shooter;
     //   private double adjustedHeading = 0;
@@ -54,17 +55,26 @@ public class BackGroundOtherStuff implements Runnable {
         while (isRunning) {
 
 
+            if (slowIntake){
+                shooter.setPower(-GP2.getRightY() * 0.7);
+
+            }
+            else
+            {
+                shooter.setPower(-GP2.getRightY());
+
+            }
 
             intakeServo1.setPower(GP2.getRightY());
             intakeServo2.setPower(-GP2.getRightY());
 
-            shooter.setPower(-GP2.getRightY());
 
             if (GP2.getButton(GamepadKeys.Button.DPAD_UP))
             {
 
                     posServo1.setPosition(0);
                     posServo2.setPosition(1);
+                    slowIntake = true;
 
 
             }
@@ -74,6 +84,7 @@ public class BackGroundOtherStuff implements Runnable {
 
                posServo1.setPosition(1);
              posServo2.setPosition(0);
+             slowIntake = false;
             }
             // Do the work
             /*

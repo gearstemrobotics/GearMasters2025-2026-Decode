@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 
 import com.acmerobotics.roadrunner.Action;
@@ -15,8 +16,8 @@ public class AlamoBlueMP extends baseAuto {
     @Override
     protected void RunInit() {
       // color =  -1; // isBlue(true);
-        setBeginPoseAndInitDrive(-52.05, -47.05, -487);
-
+       // setBeginPoseAndInitDrive(-52.05, -47.05, -487);
+        setBeginPoseAndInitDrive(-50.05, -45.05,-487);
 
     }
 
@@ -24,6 +25,15 @@ public class AlamoBlueMP extends baseAuto {
     protected void RunOpModeInnerLoop() {
 
         // Delcare Trajectory as such
+
+
+        Action initialMoveBack = drive.actionBuilder(beginPoseBlue)
+                //goes to the first balls
+                .strafeTo(new Vector2d(-50.05, -45.05))
+                .build();
+
+
+
 
         Action collectBalls1 = drive.actionBuilder(drive.localizer.getPose())
                 //goes to the first balls
@@ -79,10 +89,22 @@ public class AlamoBlueMP extends baseAuto {
                 .build();
 
 
-        shootNoRebound();
-        shooter.setPower(-1);
+
         Actions.runBlocking(
                 new SequentialAction(
+                        initialMoveBack,
+                        (telemetryPacket) -> {
+                            telemetry.addLine("Action!");
+                            telemetry.update();
+                            sleep(500);
+                            // flinger.setPower(-1);
+                            shootNoRebound();
+                            shooter.setPower(-1);
+                            intakeServo1.setPower(1);
+                            intakeServo2.setPower(-1);
+                            // flinger2.setPower(1);
+                            return false; // Returning true causes the action to run again, returning false causes it to cease
+                        },
 
                         collectBalls1, // Example of a drive action
                         (telemetryPacket) -> {
