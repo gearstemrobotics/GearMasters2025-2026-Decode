@@ -56,7 +56,7 @@ public class ADumpsGateAutoBlue extends baseAuto {
         Action shootBalls1 = drive.actionBuilder(secondBallsBlue)
                 // goes back to the goal to shoot
                 .strafeTo(new Vector2d(12.3, -24))
-                .splineToSplineHeading(beginPose,280.1)
+                .splineToSplineHeading(beginPose,280.7)
                 .build();
 
 

@@ -255,21 +255,24 @@ public abstract class baseAuto extends LinearOpMode {
     protected void shootNoWait() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7 / voltage;
+        double voltageScaler = 1;//12.7 / voltage;
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.5) {
-
-            flinger.setPower(-voltageScaler);
-            flinger2.setPower(voltageScaler);
+            flinger.setPower(-1);
+            flinger2.setPower(1);
+           // flinger.setPower(-voltageScaler);
+            //flinger2.setPower(voltageScaler);
 
         }
 
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2) {
-            flinger.setPower(voltageScaler);
-            flinger2.setPower(-voltageScaler);
+            flinger.setPower(1);
+            flinger2.setPower(-1);
+           // flinger.setPower(voltageScaler);
+            //flinger2.setPower(-voltageScaler);
 
         }
 
@@ -280,17 +283,19 @@ public abstract class baseAuto extends LinearOpMode {
         stopWatch.reset();
         while (stopWatch.seconds() < 0.4) {
 
-            flinger.setPower(-voltageScaler * shortShotValue);
-            flinger2.setPower(voltageScaler * shortShotValue);
-
+         //   flinger.setPower(-voltageScaler * shortShotValue);
+           // flinger2.setPower(voltageScaler * shortShotValue);
+            flinger.setPower(-1);
+            flinger2.setPower(1);
         }
 
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2) {
-            flinger.setPower(voltageScaler * shortShotValue);
-            flinger2.setPower(-voltageScaler * shortShotValue);
-
+         //   flinger.setPower(voltageScaler * shortShotValue);
+           // flinger2.setPower(-voltageScaler * shortShotValue);
+            flinger.setPower(1);
+            flinger2.setPower(-1);
         }
 
 
@@ -299,22 +304,26 @@ public abstract class baseAuto extends LinearOpMode {
     protected void shootSmall() {
 
         double voltage = voltageSensor.getVoltage();
-        double voltageScaler = 12.7 / voltage;
+        double voltageScaler = 1;//12.7 / voltage;
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.4) {
 
-            flinger.setPower(-voltageScaler * 0.78);
-            flinger2.setPower(voltageScaler * 0.78);
+            flinger.setPower(-1);
+            flinger2.setPower(1);
+
+            //flinger.setPower(-voltageScaler * 0.78);
+            //flinger2.setPower(voltageScaler * 0.78);
 
         }
 
 
         stopWatch.reset();
         while (stopWatch.seconds() < 0.2) {
-            flinger.setPower(voltageScaler * 0.78);
-            flinger2.setPower(-voltageScaler * 0.78);
-
+            //flinger.setPower(voltageScaler * 0.78);
+            //flinger2.setPower(-voltageScaler * 0.78);
+            flinger.setPower(1);
+            flinger2.setPower(-1);
         }
 
         stopWatch.reset();

@@ -40,17 +40,20 @@ public class MeepMeepTesting {
         Pose2d beginPoseBeforeStrafe =   new Pose2d(new Vector2d(-46.8, 42.1), Math.toRadians(487));
         Pose2d backShootBegin =   new Pose2d(new Vector2d(61.5, -12), Math.toRadians(180));
 
-        myBot.runAction(myBot.getDrive().actionBuilder(backShootBegin) //new Pose2d(30, 0, 90))
+        myBot.runAction(myBot.getDrive().actionBuilder(beginPose) //new Pose2d(30, 0, 90))
 
 
-                .strafeTo(new Vector2d(49.5, -13.5))
-                .turnTo(-2.70)
+                //.strafeTo(new Vector2d(49.5, -13.5))
+                //.turnTo(-2.70)
 
 
-                .turnTo(-3.13)
-                .strafeTo(new Vector2d(61.5, -60.8))
-
-
+                //.turnTo(-3.13)
+               // .strafeTo(new Vector2d(61.5, -60.8))
+                .strafeTo(new Vector2d(-46.8, 42.1*color))
+                .splineToSplineHeading(secondBalls,-100.1*color)
+                .strafeTo(new Vector2d(9, 53*color))
+                .strafeTo(new Vector2d(12.3, 24*color))
+                .splineToSplineHeading(beginPose,-280.7*color)
 
 
                 // .strafeTo(origin.position)
